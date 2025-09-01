@@ -124,10 +124,10 @@ export default function SignUpForm() {
         >
           <Card className="backdrop-blur-xl bg-white/20 border border-white/30 shadow-2xl rounded-2xl">
             <CardHeader className="flex flex-col gap-1 items-center pb-2">
-              <h1 className="text-3xl font-bold text-white drop-shadow">
+              <h1 className="text-3xl font-bold text-black drop-shadow">
                 Verify Your Email
               </h1>
-              <p className="text-white/80 text-center text-sm">
+              <p className="text-black/80 text-center text-sm">
                 We've sent a verification code to your email
               </p>
             </CardHeader>
@@ -151,7 +151,7 @@ export default function SignUpForm() {
                   onChange={(e) => setVerificationCode(e.target.value)}
                   className="w-full"
                   classNames={{
-                    input: "text-white placeholder-white/60",
+                    input: "text-black placeholder-white/60",
                     inputWrapper:
                       "bg-white/10 border border-white/30 focus-within:ring-2 focus-within:ring-indigo-400",
                   }}
@@ -161,7 +161,7 @@ export default function SignUpForm() {
                 <Button
                   type="submit"
                   color="primary"
-                  className="w-full font-semibold rounded-xl  text-white shadow-lg hover:shadow-indigo-500/50 transition-all"
+                  className="w-full font-semibold rounded-xl  text-black shadow-lg hover:shadow-indigo-500/50 transition-all"
                   isLoading={isSubmitting}
                 >
                   {isSubmitting ? "Verifying..." : "Verify Email"}
@@ -169,7 +169,7 @@ export default function SignUpForm() {
               </form>
 
               <div className="mt-6 text-center">
-                <p className="text-sm text-white/70">
+                <p className="text-sm text-black/70">
                   Didn't receive a code?{" "}
                   <button
                     onClick={async () => {
@@ -202,10 +202,10 @@ export default function SignUpForm() {
       >
         <Card className="backdrop-blur-xl bg-white/20 border border-white/30 shadow-2xl rounded-2xl">
           <CardHeader className="flex flex-col gap-1 items-center pb-2">
-            <h1 className="text-3xl font-bold text-white drop-shadow">
+            <h1 className="text-3xl font-bold text-black drop-shadow">
               Create Your Account
             </h1>
-            <p className="text-white/80 text-center text-sm">
+            <p className="text-black/80 text-center text-sm">
               Sign up to start managing your images securely
             </p>
           </CardHeader>
@@ -217,14 +217,14 @@ export default function SignUpForm() {
             <div className="flex flex-col gap-3">
               <Button
                 variant="bordered"
-                className="w-full bg-white/10 text-white hover:bg-white/20 transition-all"
+                className="w-full bg-white/10 text-black hover:bg-white/20 transition-all"
                 onClick={() => handleOAuthSignUp("oauth_google")}
               >
                 <FcGoogle className="h-5 w-5" /> Continue with Google
               </Button>
               <Button
                 variant="bordered"
-                className="w-full bg-white/10 text-white hover:bg-white/20 transition-all"
+                className="w-full bg-white/10 text-black hover:bg-white/20 transition-all"
                 onClick={() => handleOAuthSignUp("oauth_github")}
               >
                 <Github className="h-5 w-5" /> Continue with GitHub
@@ -233,7 +233,7 @@ export default function SignUpForm() {
 
             <div className="flex items-center gap-2">
               <Divider className="flex-1 bg-white/30" />
-              <span className="text-xs text-white/70">or</span>
+              <span className="text-xs text-black/70">or</span>
               <Divider className="flex-1 bg-white/30" />
             </div>
 
@@ -250,15 +250,15 @@ export default function SignUpForm() {
                 id="email"
                 type="email"
                 placeholder="your.email@example.com"
-                startContent={<Mail className="h-4 w-4 text-white/70" />}
+                startContent={<Mail className="h-4 w-4 text-black/70" />}
                 isInvalid={!!errors.email}
                 errorMessage={errors.email?.message}
                 {...register("email")}
                 className="w-full"
                 classNames={{
-                  input: "text-white placeholder-white/60",
+                  input: "text-black placeholder-black/60",
                   inputWrapper:
-                    "bg-white/10 border border-white/30 focus-within:ring-2 focus-within:ring-indigo-400",
+                    "bg-white/10 border border-white/30 focus-within:ring-indigo-400",
                 }}
               />
 
@@ -266,7 +266,7 @@ export default function SignUpForm() {
                 id="password"
                 type={showPassword ? "text" : "password"}
                 placeholder="••••••••"
-                startContent={<Lock className="h-4 w-4 text-white/70" />}
+                startContent={<Lock className="h-4 w-4 text-black/70" />}
                 endContent={
                   <Button
                     isIconOnly
@@ -276,9 +276,9 @@ export default function SignUpForm() {
                     type="button"
                   >
                     {showPassword ? (
-                      <EyeOff className="h-4 w-4 text-white/70" />
+                      <EyeOff className="h-4 w-4 text-black/70" />
                     ) : (
-                      <Eye className="h-4 w-4 text-white/70" />
+                      <Eye className="h-4 w-4 text-black/70" />
                     )}
                   </Button>
                 }
@@ -287,9 +287,9 @@ export default function SignUpForm() {
                 {...register("password")}
                 className="w-full"
                 classNames={{
-                  input: "text-white placeholder-white/60",
+                  input: "text-black placeholder-black/60",
                   inputWrapper:
-                    "bg-white/10 border border-white/30 focus-within:ring-2 focus-within:ring-indigo-400",
+                    "bg-white/10 border border-white/30  focus-within:ring-indigo-400",
                 }}
               />
 
@@ -297,7 +297,7 @@ export default function SignUpForm() {
                 id="passwordConfirmation"
                 type={showConfirmPassword ? "text" : "password"}
                 placeholder="••••••••"
-                startContent={<Lock className="h-4 w-4 text-white/70" />}
+                startContent={<Lock className="h-4 w-4 text-black/70" />}
                 endContent={
                   <Button
                     isIconOnly
@@ -307,9 +307,9 @@ export default function SignUpForm() {
                     type="button"
                   >
                     {showConfirmPassword ? (
-                      <EyeOff className="h-4 w-4 text-white/70" />
+                      <EyeOff className="h-4 w-4 text-black/70" />
                     ) : (
-                      <Eye className="h-4 w-4 text-white/70" />
+                      <Eye className="h-4 w-4 text-black/70" />
                     )}
                   </Button>
                 }
@@ -318,15 +318,15 @@ export default function SignUpForm() {
                 {...register("passwordConfirmation")}
                 className="w-full"
                 classNames={{
-                  input: "text-white placeholder-white/60",
+                  input: "text-black placeholder-black/60",
                   inputWrapper:
-                    "bg-white/10 border border-white/30 focus-within:ring-2 focus-within:ring-indigo-400",
+                    "bg-white/10 border border-white/30  focus-within:ring-indigo-400",
                 }}
               />
 
               <div className="flex items-start gap-2">
                 <CheckCircle className="h-5 w-5 text-indigo-300 mt-0.5" />
-                <p className="text-sm text-white/80">
+                <p className="text-sm text-black/80">
                   By signing up, you agree to our Terms of Service and Privacy Policy
                 </p>
               </div>
@@ -345,7 +345,7 @@ export default function SignUpForm() {
           <Divider className="bg-white/30" />
 
           <CardFooter className="flex justify-center py-4">
-            <p className="text-sm text-white/80">
+            <p className="text-sm text-black/80">
               Already have an account?{" "}
               <Link
                 href="/sign-in"

@@ -112,7 +112,7 @@ export default function Navbar({ user }: NavbarProps) {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex gap-6 items-center">
+          <div className="hidden md:flex gap-6 items-center text-white">
             <SignedOut>
               <Link href="/sign-in">
                 <Button
@@ -218,7 +218,7 @@ export default function Navbar({ user }: NavbarProps) {
           <div
             ref={mobileMenuRef}
             className={`fixed top-0 right-0 bottom-0 w-4/5 max-w-sm 
-              backdrop-blur-lg bg-black/80 text-gray-200 
+              backdrop-blur-lg bg-black/80 text-white
               z-40 flex flex-col pt-20 px-6 shadow-xl 
               transition-transform duration-300 ease-in-out ${
                 isMobileMenuOpen ? "translate-x-0" : "translate-x-full"

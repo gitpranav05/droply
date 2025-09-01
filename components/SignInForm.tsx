@@ -86,10 +86,10 @@ export default function SignInForm() {
       >
         <Card className="backdrop-blur-xl bg-white/20 border border-white/30 shadow-2xl rounded-2xl">
           <CardHeader className="flex flex-col gap-1 items-center pb-2">
-            <h1 className="text-3xl font-bold text-white drop-shadow">
+            <h1 className="text-3xl font-bold text-black drop-shadow">
               Welcome Back
             </h1>
-            <p className="text-white/80 text-center text-sm">
+            <p className="text-black/80 text-center text-sm">
               Sign in to access your secure cloud storage
             </p>
           </CardHeader>
@@ -109,23 +109,24 @@ export default function SignInForm() {
               <div className="space-y-2">
                 <label
                   htmlFor="identifier"
-                  className="text-sm font-medium text-white"
+                  className="text-sm font-medium text-black"
                 >
                   Email
                 </label>
                 <Input
                   id="identifier"
                   type="email"
+                  
                   placeholder="your.email@example.com"
-                  startContent={<Mail className="h-4 w-4 text-white/70" />}
+                  startContent={<Mail className="h-4 w-4 text-black/70" />}
                   isInvalid={!!errors.identifier}
                   errorMessage={errors.identifier?.message}
                   {...register("identifier")}
                   className="w-full"
                   classNames={{
-                    input: "text-white placeholder-white/60",
+                    input: "text-black placeholder-black/60",
                     inputWrapper:
-                      "bg-white/10 border border-white/30 focus-within:ring-2 focus-within:ring-indigo-400",
+                      "bg-white/10  border-white/30  focus-within:ring-indigo-400",
                   }}
                 />
               </div>
@@ -133,7 +134,7 @@ export default function SignInForm() {
               <div className="space-y-2">
                 <label
                   htmlFor="password"
-                  className="text-sm font-medium text-white"
+                  className="text-sm font-medium text-black"
                 >
                   Password
                 </label>
@@ -141,7 +142,7 @@ export default function SignInForm() {
                   id="password"
                   type={showPassword ? "text" : "password"}
                   placeholder="••••••••"
-                  startContent={<Lock className="h-4 w-4 text-white/70" />}
+                  startContent={<Lock className="h-4 w-4 text-black/70" />}
                   endContent={
                     <Button
                       isIconOnly
@@ -151,9 +152,9 @@ export default function SignInForm() {
                       type="button"
                     >
                       {showPassword ? (
-                        <EyeOff className="h-4 w-4 text-white/70" />
+                        <EyeOff className="h-4 w-4 text-black/70" />
                       ) : (
-                        <Eye className="h-4 w-4 text-white/70" />
+                        <Eye className="h-4 w-4 text-black/70" />
                       )}
                     </Button>
                   }
@@ -162,9 +163,9 @@ export default function SignInForm() {
                   {...register("password")}
                   className="w-full"
                   classNames={{
-                    input: "text-white placeholder-white/60",
+                    input: "text-black placeholder-black/60",
                     inputWrapper:
-                      "bg-white/10 border border-white/30 focus-within:ring-2 focus-within:ring-indigo-400",
+                      "bg-white/10 border border-white/30 focus-within:ring-indigo-400",
                   }}
                 />
               </div>
@@ -172,7 +173,7 @@ export default function SignInForm() {
               <Button
                 type="submit"
                 color="primary"
-                className="w-full font-semibold rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg hover:shadow-indigo-500/50 transition-all"
+                className="w-full font-semibold rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 text-black shadow-lg hover:shadow-indigo-500/50 transition-all"
                 isLoading={isSubmitting}
               >
                 {isSubmitting ? "Signing in..." : "Sign In"}
@@ -182,7 +183,7 @@ export default function SignInForm() {
             {/* Divider for OAuth */}
             <div className="flex items-center gap-2 my-6">
               <Divider className="flex-1 bg-white/30" />
-              <span className="text-sm text-white/70">or</span>
+              <span className="text-sm text-black/70">or</span>
               <Divider className="flex-1 bg-white/30" />
             </div>
 
@@ -190,14 +191,14 @@ export default function SignInForm() {
             <div className="space-y-3">
               <Button
                 variant="bordered"
-                className="w-full bg-white/10 text-white hover:bg-white/20 transition-all"
+                className="w-full bg-white/10 text-black hover:bg-white/20 transition-all"
                 onClick={() => handleOAuthSignIn("oauth_google")}
               >
                 <FcGoogle className="h-5 w-5" /> Sign in with Google
               </Button>
               <Button
                 variant="bordered"
-                className="w-full bg-white/10 text-white hover:bg-white/20 transition-all"
+                className="w-full bg-white/10 text-black hover:bg-white/20 transition-all"
                 onClick={() => handleOAuthSignIn("oauth_github")}
               >
                 <Github className="h-5 w-5" /> Sign in with GitHub
@@ -208,7 +209,7 @@ export default function SignInForm() {
           <Divider className="bg-white/30" />
 
           <CardFooter className="flex justify-center py-4">
-            <p className="text-sm text-white/80">
+            <p className="text-sm text-black/80">
               Don't have an account?{" "}
               <Link
                 href="/sign-up"
