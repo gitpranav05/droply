@@ -63,11 +63,11 @@ export default function FileList({
       setFiles(response.data);
     } catch (error) {
       console.error("Error fetching files:", error);
-      addToast({
-        title: "Error Loading Files",
-        description: "We couldn't load your files. Please try again later.",
-        color: "danger",
-      });
+      // addToast({
+      //   title: "Error Loading Files",
+      //   description: "We couldn't load your files. Please try again later.",
+      //   color: "danger",
+      // });
     } finally {
       setLoading(false);
     }
@@ -114,20 +114,20 @@ export default function FileList({
 
       // Show toast
       const file = files.find((f) => f.id === fileId);
-      addToast({
-        title: file?.isStarred ? "Removed from Starred" : "Added to Starred",
-        description: `"${file?.name}" has been ${
-          file?.isStarred ? "removed from" : "added to"
-        } your starred files`,
-        color: "success",
-      });
+      // addToast({
+      //   title: file?.isStarred ? "Removed from Starred" : "Added to Starred",
+      //   description: `"${file?.name}" has been ${
+      //     file?.isStarred ? "removed from" : "added to"
+      //   } your starred files`,
+      //   color: "success",
+      // });
     } catch (error) {
       console.error("Error starring file:", error);
-      addToast({
-        title: "Action Failed",
-        description: "We couldn't update the star status. Please try again.",
-        color: "danger",
-      });
+      // addToast({
+      //   title: "Action Failed",
+      //   description: "We couldn't update the star status. Please try again.",
+      //   color: "danger",
+      // });
     }
   };
 
@@ -145,20 +145,20 @@ export default function FileList({
 
       // Show toast
       const file = files.find((f) => f.id === fileId);
-      addToast({
-        title: responseData.isTrash ? "Moved to Trash" : "Restored from Trash",
-        description: `"${file?.name}" has been ${
-          responseData.isTrash ? "moved to trash" : "restored"
-        }`,
-        color: "success",
-      });
+      // addToast({
+      //   title: responseData.isTrash ? "Moved to Trash" : "Restored from Trash",
+      //   description: `"${file?.name}" has been ${
+      //     responseData.isTrash ? "moved to trash" : "restored"
+      //   }`,
+      //   color: "success",
+      // });
     } catch (error) {
       console.error("Error trashing file:", error);
-      addToast({
-        title: "Action Failed",
-        description: "We couldn't update the file status. Please try again.",
-        color: "danger",
-      });
+      // addToast({
+      //   title: "Action Failed",
+      //   description: "We couldn't update the file status. Please try again.",
+      //   color: "danger",
+      // });
     }
   };
 
@@ -176,11 +176,11 @@ export default function FileList({
         setFiles(files.filter((file) => file.id !== fileId));
 
         // Show success toast
-        addToast({
-          title: "File Permanently Deleted",
-          description: `"${fileName}" has been permanently removed`,
-          color: "success",
-        });
+        // addToast({
+        //   title: "File Permanently Deleted",
+        //   description: `"${fileName}" has been permanently removed`,
+        //   color: "success",
+        // });
 
         // Close modal if it was open
         setDeleteModalOpen(false);
@@ -189,11 +189,11 @@ export default function FileList({
       }
     } catch (error) {
       console.error("Error deleting file:", error);
-      addToast({
-        title: "Deletion Failed",
-        description: "We couldn't delete the file. Please try again later.",
-        color: "danger",
-      });
+      // addToast({
+      //   title: "Deletion Failed",
+      //   description: "We couldn't delete the file. Please try again later.",
+      //   color: "danger",
+      // });
     }
   };
 
@@ -205,21 +205,21 @@ export default function FileList({
       setFiles(files.filter((file) => !file.isTrash));
 
       // Show toast
-      addToast({
-        title: "Trash Emptied",
-        description: `All ${trashCount} items have been permanently deleted`,
-        color: "success",
-      });
+      // addToast({
+      //   title: "Trash Emptied",
+      //   description: `All ${trashCount} items have been permanently deleted`,
+      //   color: "success",
+      // });
 
       // Close modal
       setEmptyTrashModalOpen(false);
     } catch (error) {
       console.error("Error emptying trash:", error);
-      addToast({
-        title: "Action Failed",
-        description: "We couldn't empty the trash. Please try again later.",
-        color: "danger",
-      });
+      // addToast({
+      //   title: "Action Failed",
+      //   description: "We couldn't empty the trash. Please try again later.",
+      //   color: "danger",
+      // });
     }
   };
 
@@ -227,11 +227,11 @@ export default function FileList({
   const handleDownloadFile = async (file: FileType) => {
     try {
       // Show loading toast
-      const loadingToastId = addToast({
-        title: "Preparing Download",
-        description: `Getting "${file.name}" ready for download...`,
-        color: "primary",
-      });
+      // const loadingToastId = addToast({
+      //   title: "Preparing Download",
+      //   description: `Getting "${file.name}" ready for download...`,
+      //   color: "primary",
+      // });
 
       // For images, we can use the ImageKit URL directly with optimized settings
       if (file.type.startsWith("image/")) {
@@ -256,11 +256,11 @@ export default function FileList({
         document.body.appendChild(link);
 
         // Remove loading toast and show success toast
-        addToast({
-          title: "Download Ready",
-          description: `"${file.name}" is ready to download.`,
-          color: "success",
-        });
+        // addToast({
+        //   title: "Download Ready",
+        //   description: `"${file.name}" is ready to download.`,
+        //   color: "success",
+        // });
 
         // Trigger download
         link.click();
@@ -286,11 +286,11 @@ export default function FileList({
         document.body.appendChild(link);
 
         // Remove loading toast and show success toast
-        addToast({
-          title: "Download Ready",
-          description: `"${file.name}" is ready to download.`,
-          color: "success",
-        });
+        // addToast({
+        //   title: "Download Ready",
+        //   description: `"${file.name}" is ready to download.`,
+        //   color: "success",
+        // });
 
         // Trigger download
         link.click();
@@ -301,11 +301,11 @@ export default function FileList({
       }
     } catch (error) {
       console.error("Error downloading file:", error);
-      addToast({
-        title: "Download Failed",
-        description: "We couldn't download the file. Please try again later.",
-        color: "danger",
-      });
+      // addToast({
+      //   title: "Download Failed",
+      //   description: "We couldn't download the file. Please try again later.",
+      //   color: "danger",
+      // });
     }
   };
 

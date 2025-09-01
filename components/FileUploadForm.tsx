@@ -116,11 +116,11 @@ export default function FileUploadForm({
         },
       });
 
-      addToast({
-        title: "Upload Successful",
-        description: `${file.name} has been uploaded successfully.`,
-        color: "success",
-      });
+      // addToast({
+      //   title: "Upload Successful",
+      //   description: `${file.name} has been uploaded successfully.`,
+      //   color: "success",
+      // });
 
       // Clear the file after successful upload
       clearFile();
@@ -132,11 +132,11 @@ export default function FileUploadForm({
     } catch (error) {
       console.error("Error uploading file:", error);
       setError("Failed to upload file. Please try again.");
-      addToast({
-        title: "Upload Failed",
-        description: "We couldn't upload your file. Please try again.",
-        color: "danger",
-      });
+      // addToast({
+      //   title: "Upload Failed",
+      //   description: "We couldn't upload your file. Please try again.",
+      //   color: "danger",
+      // });
     } finally {
       setUploading(false);
     }
@@ -144,11 +144,11 @@ export default function FileUploadForm({
 
   const handleCreateFolder = async () => {
     if (!folderName.trim()) {
-      addToast({
-        title: "Invalid Folder Name",
-        description: "Please enter a valid folder name.",
-        color: "danger",
-      });
+      // addToast({
+      //   title: "Invalid Folder Name",
+      //   description: "Please enter a valid folder name.",
+      //   color: "danger",
+      // });
       return;
     }
 
@@ -161,11 +161,11 @@ export default function FileUploadForm({
         parentId: currentFolder,
       });
 
-      addToast({
-        title: "Folder Created",
-        description: `Folder "${folderName}" has been created successfully.`,
-        color: "success",
-      });
+      // addToast({
+      //   title: "Folder Created",
+      //   description: `Folder "${folderName}" has been created successfully.`,
+      //   color: "success",
+      // });
 
       // Reset folder name and close modal
       setFolderName("");
@@ -177,11 +177,11 @@ export default function FileUploadForm({
       }
     } catch (error) {
       console.error("Error creating folder:", error);
-      addToast({
-        title: "Folder Creation Failed",
-        description: "We couldn't create the folder. Please try again.",
-        color: "danger",
-      });
+      // addToast({
+      //   title: "Folder Creation Failed",
+      //   description: "We couldn't create the folder. Please try again.",
+      //   color: "danger",
+      // });
     } finally {
       setCreatingFolder(false);
     }
