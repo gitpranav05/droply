@@ -18,8 +18,11 @@ import {
   CheckCircle,
   Eye,
   EyeOff,
+  Github,
 } from "lucide-react";
+import { FcGoogle } from "react-icons/fc";
 import { signUpSchema } from "@/schemas/signUpSchema";
+import { motion } from "framer-motion";
 
 export default function SignUpForm() {
   const router = useRouter();
@@ -62,7 +65,6 @@ export default function SignUpForm() {
       await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
       setVerifying(true);
     } catch (error: any) {
-      console.error("Sign-up error:", error);
       setAuthError(
         error.errors?.[0]?.message ||
           "An error occurred during sign-up. Please try again."
@@ -90,13 +92,9 @@ export default function SignUpForm() {
         await setActive({ session: result.createdSessionId });
         router.push("/dashboard");
       } else {
-        console.error("Verification incomplete:", result);
-        setVerificationError(
-          "Verification could not be completed. Please try again."
-        );
+        setVerificationError("Verification could not be completed. Please try again.");
       }
     } catch (error: any) {
-      console.error("Verification error:", error);
       setVerificationError(
         error.errors?.[0]?.message ||
           "An error occurred during verification. Please try again."
@@ -106,222 +104,259 @@ export default function SignUpForm() {
     }
   };
 
+  const handleOAuthSignUp = (provider: "oauth_google" | "oauth_github") => {
+    if (!isLoaded || !signUp) return;
+    return signUp.authenticateWithRedirect({
+      strategy: provider,
+      redirectUrl: "/sso-callback",
+      redirectUrlComplete: "/dashboard",
+    });
+  };
+
   if (verifying) {
     return (
-      <Card className="w-full max-w-md border border-default-200 bg-default-50 shadow-xl">
-        <CardHeader className="flex flex-col gap-1 items-center pb-2">
-          <h1 className="text-2xl font-bold text-default-900">
-            Verify Your Email
-          </h1>
-          <p className="text-default-500 text-center">
-            We've sent a verification code to your email
-          </p>
-        </CardHeader>
+      <div className="min-h-screen flex items-center justify-center  p-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="w-full max-w-md"
+        >
+          <Card className="backdrop-blur-xl bg-white/20 border border-white/30 shadow-2xl rounded-2xl">
+            <CardHeader className="flex flex-col gap-1 items-center pb-2">
+              <h1 className="text-3xl font-bold text-white drop-shadow">
+                Verify Your Email
+              </h1>
+              <p className="text-white/80 text-center text-sm">
+                We've sent a verification code to your email
+              </p>
+            </CardHeader>
 
-        <Divider />
+            <Divider className="bg-white/30" />
 
-        <CardBody className="py-6">
-          {verificationError && (
-            <div className="bg-danger-50 text-danger-700 p-4 rounded-lg mb-6 flex items-center gap-2">
-              <AlertCircle className="h-5 w-5 flex-shrink-0" />
-              <p>{verificationError}</p>
-            </div>
-          )}
+            <CardBody className="py-6">
+              {verificationError && (
+                <div className="bg-red-500/20 text-red-200 p-4 rounded-lg mb-6 flex items-center gap-2 border border-red-400/30">
+                  <AlertCircle className="h-5 w-5 flex-shrink-0" />
+                  <p>{verificationError}</p>
+                </div>
+              )}
 
-          <form onSubmit={handleVerificationSubmit} className="space-y-6">
-            <div className="space-y-2">
-              <label
-                htmlFor="verificationCode"
-                className="text-sm font-medium text-default-900"
-              >
-                Verification Code
-              </label>
-              <Input
-                id="verificationCode"
-                type="text"
-                placeholder="Enter the 6-digit code"
-                value={verificationCode}
-                onChange={(e) => setVerificationCode(e.target.value)}
-                className="w-full"
-                autoFocus
-              />
-            </div>
-              {/* <div id="clerk-captcha"></div> */}
-            <Button
-              type="submit"
-              color="primary"
-              className="w-full"
-              isLoading={isSubmitting}
-            >
-              {isSubmitting ? "Verifying..." : "Verify Email"}
-            </Button>
-          </form>
+              <form onSubmit={handleVerificationSubmit} className="space-y-6">
+                <Input
+                  id="verificationCode"
+                  type="text"
+                  placeholder="Enter the 6-digit code"
+                  value={verificationCode}
+                  onChange={(e) => setVerificationCode(e.target.value)}
+                  className="w-full"
+                  classNames={{
+                    input: "text-white placeholder-white/60",
+                    inputWrapper:
+                      "bg-white/10 border border-white/30 focus-within:ring-2 focus-within:ring-indigo-400",
+                  }}
+                  autoFocus
+                />
 
-          <div className="mt-6 text-center">
-            <p className="text-sm text-default-500">
-              Didn't receive a code?{" "}
-              <button
-                onClick={async () => {
-                  if (signUp) {
-                    await signUp.prepareEmailAddressVerification({
-                      strategy: "email_code",
-                    });
-                  }
-                }}
-                className="text-primary hover:underline font-medium"
-              >
-                Resend code
-              </button>
-            </p>
-          </div>
-        </CardBody>
-      </Card>
+                <Button
+                  type="submit"
+                  color="primary"
+                  className="w-full font-semibold rounded-xl  text-white shadow-lg hover:shadow-indigo-500/50 transition-all"
+                  isLoading={isSubmitting}
+                >
+                  {isSubmitting ? "Verifying..." : "Verify Email"}
+                </Button>
+              </form>
+
+              <div className="mt-6 text-center">
+                <p className="text-sm text-white/70">
+                  Didn't receive a code?{" "}
+                  <button
+                    onClick={async () => {
+                      if (signUp) {
+                        await signUp.prepareEmailAddressVerification({
+                          strategy: "email_code",
+                        });
+                      }
+                    }}
+                    className="text-indigo-200 hover:underline font-medium"
+                  >
+                    Resend code
+                  </button>
+                </p>
+              </div>
+            </CardBody>
+          </Card>
+        </motion.div>
+      </div>
     );
   }
 
   return (
-    <Card className="w-full max-w-md border border-default-200 bg-default-50 shadow-xl">
-      <CardHeader className="flex flex-col gap-1 items-center pb-2">
-        <h1 className="text-2xl font-bold text-default-900">
-          Create Your Account
-        </h1>
-        <p className="text-default-500 text-center">
-          Sign up to start managing your images securely
-        </p>
-      </CardHeader>
+    <div className="min-h-screen flex items-center justify-center  p-6">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="w-full max-w-md"
+      >
+        <Card className="backdrop-blur-xl bg-white/20 border border-white/30 shadow-2xl rounded-2xl">
+          <CardHeader className="flex flex-col gap-1 items-center pb-2">
+            <h1 className="text-3xl font-bold text-white drop-shadow">
+              Create Your Account
+            </h1>
+            <p className="text-white/80 text-center text-sm">
+              Sign up to start managing your images securely
+            </p>
+          </CardHeader>
 
-      <Divider />
+          <Divider className="bg-white/30" />
 
-      <CardBody className="py-6">
-        {authError && (
-          <div className="bg-danger-50 text-danger-700 p-4 rounded-lg mb-6 flex items-center gap-2">
-            <AlertCircle className="h-5 w-5 flex-shrink-0" />
-            <p>{authError}</p>
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          <div className="space-y-2">
-            <label
-              htmlFor="email"
-              className="text-sm font-medium text-default-900"
-            >
-              Email
-            </label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="your.email@example.com"
-              startContent={<Mail className="h-4 w-4 text-default-500" />}
-              isInvalid={!!errors.email}
-              errorMessage={errors.email?.message}
-              {...register("email")}
-              className="w-full"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <label
-              htmlFor="password"
-              className="text-sm font-medium text-default-900"
-            >
-              Password
-            </label>
-            <Input
-              id="password"
-              type={showPassword ? "text" : "password"}
-              placeholder="••••••••"
-              startContent={<Lock className="h-4 w-4 text-default-500" />}
-              endContent={
-                <Button
-                  isIconOnly
-                  variant="light"
-                  size="sm"
-                  onClick={() => setShowPassword(!showPassword)}
-                  type="button"
-                >
-                  {showPassword ? (
-                    <EyeOff className="h-4 w-4 text-default-500" />
-                  ) : (
-                    <Eye className="h-4 w-4 text-default-500" />
-                  )}
-                </Button>
-              }
-              isInvalid={!!errors.password}
-              errorMessage={errors.password?.message}
-              {...register("password")}
-              className="w-full"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <label
-              htmlFor="passwordConfirmation"
-              className="text-sm font-medium text-default-900"
-            >
-              Confirm Password
-            </label>
-            <Input
-              id="passwordConfirmation"
-              type={showConfirmPassword ? "text" : "password"}
-              placeholder="••••••••"
-              startContent={<Lock className="h-4 w-4 text-default-500" />}
-              endContent={
-                <Button
-                  isIconOnly
-                  variant="light"
-                  size="sm"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  type="button"
-                >
-                  {showConfirmPassword ? (
-                    <EyeOff className="h-4 w-4 text-default-500" />
-                  ) : (
-                    <Eye className="h-4 w-4 text-default-500" />
-                  )}
-                </Button>
-              }
-              isInvalid={!!errors.passwordConfirmation}
-              errorMessage={errors.passwordConfirmation?.message}
-              {...register("passwordConfirmation")}
-              className="w-full"
-            />
-          </div>
-
-          <div className="space-y-4">
-            <div className="flex items-start gap-2">
-              <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-              <p className="text-sm text-default-600">
-                By signing up, you agree to our Terms of Service and Privacy
-                Policy
-              </p>
+          <CardBody className="py-6 space-y-6">
+            {/* Social Sign Up */}
+            <div className="flex flex-col gap-3">
+              <Button
+                variant="bordered"
+                className="w-full bg-white/10 text-white hover:bg-white/20 transition-all"
+                onClick={() => handleOAuthSignUp("oauth_google")}
+              >
+                <FcGoogle className="h-5 w-5" /> Continue with Google
+              </Button>
+              <Button
+                variant="bordered"
+                className="w-full bg-white/10 text-white hover:bg-white/20 transition-all"
+                onClick={() => handleOAuthSignUp("oauth_github")}
+              >
+                <Github className="h-5 w-5" /> Continue with GitHub
+              </Button>
             </div>
-          </div>
-                {/* <div id="clerk-captcha" data-cl-theme="dark" data-cl-size="flexible" /> */}
-          <Button
-            type="submit"
-            color="primary"
-            className="w-full"
-            isLoading={isSubmitting}
-          >
-            {isSubmitting ? "Creating account..." : "Create Account"}
-          </Button>
-        </form>
-      </CardBody>
 
-      <Divider />
+            <div className="flex items-center gap-2">
+              <Divider className="flex-1 bg-white/30" />
+              <span className="text-xs text-white/70">or</span>
+              <Divider className="flex-1 bg-white/30" />
+            </div>
 
-      <CardFooter className="flex justify-center py-4">
-        <p className="text-sm text-default-600">
-          Already have an account?{" "}
-          <Link
-            href="/sign-in"
-            className="text-primary hover:underline font-medium"
-          >
-            Sign in
-          </Link>
-        </p>
-      </CardFooter>
-    </Card>
+            {authError && (
+              <div className="bg-red-500/20 text-red-200 p-4 rounded-lg mb-2 flex items-center gap-2 border border-red-400/30">
+                <AlertCircle className="h-5 w-5 flex-shrink-0" />
+                <p>{authError}</p>
+              </div>
+            )}
+
+            {/* Email + Password Form */}
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              <Input
+                id="email"
+                type="email"
+                placeholder="your.email@example.com"
+                startContent={<Mail className="h-4 w-4 text-white/70" />}
+                isInvalid={!!errors.email}
+                errorMessage={errors.email?.message}
+                {...register("email")}
+                className="w-full"
+                classNames={{
+                  input: "text-white placeholder-white/60",
+                  inputWrapper:
+                    "bg-white/10 border border-white/30 focus-within:ring-2 focus-within:ring-indigo-400",
+                }}
+              />
+
+              <Input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                placeholder="••••••••"
+                startContent={<Lock className="h-4 w-4 text-white/70" />}
+                endContent={
+                  <Button
+                    isIconOnly
+                    variant="light"
+                    size="sm"
+                    onClick={() => setShowPassword(!showPassword)}
+                    type="button"
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4 text-white/70" />
+                    ) : (
+                      <Eye className="h-4 w-4 text-white/70" />
+                    )}
+                  </Button>
+                }
+                isInvalid={!!errors.password}
+                errorMessage={errors.password?.message}
+                {...register("password")}
+                className="w-full"
+                classNames={{
+                  input: "text-white placeholder-white/60",
+                  inputWrapper:
+                    "bg-white/10 border border-white/30 focus-within:ring-2 focus-within:ring-indigo-400",
+                }}
+              />
+
+              <Input
+                id="passwordConfirmation"
+                type={showConfirmPassword ? "text" : "password"}
+                placeholder="••••••••"
+                startContent={<Lock className="h-4 w-4 text-white/70" />}
+                endContent={
+                  <Button
+                    isIconOnly
+                    variant="light"
+                    size="sm"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    type="button"
+                  >
+                    {showConfirmPassword ? (
+                      <EyeOff className="h-4 w-4 text-white/70" />
+                    ) : (
+                      <Eye className="h-4 w-4 text-white/70" />
+                    )}
+                  </Button>
+                }
+                isInvalid={!!errors.passwordConfirmation}
+                errorMessage={errors.passwordConfirmation?.message}
+                {...register("passwordConfirmation")}
+                className="w-full"
+                classNames={{
+                  input: "text-white placeholder-white/60",
+                  inputWrapper:
+                    "bg-white/10 border border-white/30 focus-within:ring-2 focus-within:ring-indigo-400",
+                }}
+              />
+
+              <div className="flex items-start gap-2">
+                <CheckCircle className="h-5 w-5 text-indigo-300 mt-0.5" />
+                <p className="text-sm text-white/80">
+                  By signing up, you agree to our Terms of Service and Privacy Policy
+                </p>
+              </div>
+                <div id="clerk-captcha" data-cl-theme="dark" data-cl-size="flexible" />
+              <Button
+                type="submit"
+                color="primary"
+                className="w-full font-semibold rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg hover:shadow-indigo-500/50 transition-all"
+                isLoading={isSubmitting}
+              >
+                {isSubmitting ? "Creating account..." : "Create Account"}
+              </Button>
+            </form>
+          </CardBody>
+
+          <Divider className="bg-white/30" />
+
+          <CardFooter className="flex justify-center py-4">
+            <p className="text-sm text-white/80">
+              Already have an account?{" "}
+              <Link
+                href="/sign-in"
+                className="text-indigo-200 hover:underline font-medium"
+              >
+                Sign in
+              </Link>
+            </p>
+          </CardFooter>
+        </Card>
+      </motion.div>
+    </div>
   );
 }

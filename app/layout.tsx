@@ -17,6 +17,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Droply2012",
   description: "Made by elpranav2012",
+ 
 };
 
 export default function RootLayout({
@@ -28,6 +29,7 @@ export default function RootLayout({
     <ClerkProvider>
 
     <html lang="en" data-theme="dark" style={{ colorScheme: "dark" }}>
+      
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >

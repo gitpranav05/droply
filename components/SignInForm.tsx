@@ -11,8 +11,10 @@ import { Button } from "@heroui/button";
 import { Input } from "@heroui/input";
 import { Card, CardBody, CardHeader, CardFooter } from "@heroui/card";
 import { Divider } from "@heroui/divider";
-import { Mail, Lock, AlertCircle, Eye, EyeOff } from "lucide-react";
+import { Mail, Github, Lock, AlertCircle, Eye, EyeOff } from "lucide-react";
 import { signInSchema } from "@/schemas/signInSchema";
+import { FcGoogle } from "react-icons/fc";
+import { motion } from "framer-motion";
 
 export default function SignInForm() {
   const router = useRouter();
@@ -49,11 +51,9 @@ export default function SignInForm() {
         await setActive({ session: result.createdSessionId });
         router.push("/dashboard");
       } else {
-        console.error("Sign-in incomplete:", result);
         setAuthError("Sign-in could not be completed. Please try again.");
       }
     } catch (error: any) {
-      console.error("Sign-in error:", error);
       setAuthError(
         error.errors?.[0]?.message ||
           "An error occurred during sign-in. Please try again."
@@ -63,105 +63,163 @@ export default function SignInForm() {
     }
   };
 
+  const handleOAuthSignIn = async (provider: "oauth_google" | "oauth_github") => {
+    if (!isLoaded) return;
+    try {
+      await signIn.authenticateWithRedirect({
+        strategy: provider,
+        redirectUrl: "/sso-callback",
+        redirectUrlComplete: "/dashboard",
+      });
+    } catch (error) {
+      console.error(`${provider} sign-in error:`, error);
+    }
+  };
+
   return (
-    <Card className="w-full max-w-md border border-default-200 bg-default-50 shadow-xl">
-      <CardHeader className="flex flex-col gap-1 items-center pb-2">
-        <h1 className="text-2xl font-bold text-default-900">Welcome Back</h1>
-        <p className="text-default-500 text-center">
-          Sign in to access your secure cloud storage
-        </p>
-      </CardHeader>
+    <div className="min-h-screen flex items-center justify-center ">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="w-full max-w-md"
+      >
+        <Card className="backdrop-blur-xl bg-white/20 border border-white/30 shadow-2xl rounded-2xl">
+          <CardHeader className="flex flex-col gap-1 items-center pb-2">
+            <h1 className="text-3xl font-bold text-white drop-shadow">
+              Welcome Back
+            </h1>
+            <p className="text-white/80 text-center text-sm">
+              Sign in to access your secure cloud storage
+            </p>
+          </CardHeader>
 
-      <Divider />
+          <Divider className="bg-white/30" />
 
-      <CardBody className="py-6">
-        {authError && (
-          <div className="bg-danger-50 text-danger-700 p-4 rounded-lg mb-6 flex items-center gap-2">
-            <AlertCircle className="h-5 w-5 flex-shrink-0" />
-            <p>{authError}</p>
-          </div>
-        )}
+          <CardBody className="py-6">
+            {authError && (
+              <div className="bg-red-500/20 text-red-200 p-4 rounded-lg mb-6 flex items-center gap-2 border border-red-400/30">
+                <AlertCircle className="h-5 w-5 flex-shrink-0" />
+                <p>{authError}</p>
+              </div>
+            )}
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          <div className="space-y-2">
-            <label
-              htmlFor="identifier"
-              className="text-sm font-medium text-default-900"
-            >
-              Email
-            </label>
-            <Input
-              id="identifier"
-              type="email"
-              placeholder="your.email@example.com"
-              startContent={<Mail className="h-4 w-4 text-default-500" />}
-              isInvalid={!!errors.identifier}
-              errorMessage={errors.identifier?.message}
-              {...register("identifier")}
-              className="w-full"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <div className="flex justify-between items-center">
-              <label
-                htmlFor="password"
-                className="text-sm font-medium text-default-900"
-              >
-                Password
-              </label>
-            </div>
-            <Input
-              id="password"
-              type={showPassword ? "text" : "password"}
-              placeholder="••••••••"
-              startContent={<Lock className="h-4 w-4 text-default-500" />}
-              endContent={
-                <Button
-                  isIconOnly
-                  variant="light"
-                  size="sm"
-                  onClick={() => setShowPassword(!showPassword)}
-                  type="button"
+            {/* Email + Password Sign In */}
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              <div className="space-y-2">
+                <label
+                  htmlFor="identifier"
+                  className="text-sm font-medium text-white"
                 >
-                  {showPassword ? (
-                    <EyeOff className="h-4 w-4 text-default-500" />
-                  ) : (
-                    <Eye className="h-4 w-4 text-default-500" />
-                  )}
-                </Button>
-              }
-              isInvalid={!!errors.password}
-              errorMessage={errors.password?.message}
-              {...register("password")}
-              className="w-full"
-            />
-          </div>
+                  Email
+                </label>
+                <Input
+                  id="identifier"
+                  type="email"
+                  placeholder="your.email@example.com"
+                  startContent={<Mail className="h-4 w-4 text-white/70" />}
+                  isInvalid={!!errors.identifier}
+                  errorMessage={errors.identifier?.message}
+                  {...register("identifier")}
+                  className="w-full"
+                  classNames={{
+                    input: "text-white placeholder-white/60",
+                    inputWrapper:
+                      "bg-white/10 border border-white/30 focus-within:ring-2 focus-within:ring-indigo-400",
+                  }}
+                />
+              </div>
 
-          <Button
-            type="submit"
-            color="primary"
-            className="w-full"
-            isLoading={isSubmitting}
-          >
-            {isSubmitting ? "Signing in..." : "Sign In"}
-          </Button>
-        </form>
-      </CardBody>
+              <div className="space-y-2">
+                <label
+                  htmlFor="password"
+                  className="text-sm font-medium text-white"
+                >
+                  Password
+                </label>
+                <Input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="••••••••"
+                  startContent={<Lock className="h-4 w-4 text-white/70" />}
+                  endContent={
+                    <Button
+                      isIconOnly
+                      variant="light"
+                      size="sm"
+                      onClick={() => setShowPassword(!showPassword)}
+                      type="button"
+                    >
+                      {showPassword ? (
+                        <EyeOff className="h-4 w-4 text-white/70" />
+                      ) : (
+                        <Eye className="h-4 w-4 text-white/70" />
+                      )}
+                    </Button>
+                  }
+                  isInvalid={!!errors.password}
+                  errorMessage={errors.password?.message}
+                  {...register("password")}
+                  className="w-full"
+                  classNames={{
+                    input: "text-white placeholder-white/60",
+                    inputWrapper:
+                      "bg-white/10 border border-white/30 focus-within:ring-2 focus-within:ring-indigo-400",
+                  }}
+                />
+              </div>
 
-      <Divider />
+              <Button
+                type="submit"
+                color="primary"
+                className="w-full font-semibold rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg hover:shadow-indigo-500/50 transition-all"
+                isLoading={isSubmitting}
+              >
+                {isSubmitting ? "Signing in..." : "Sign In"}
+              </Button>
+            </form>
 
-      <CardFooter className="flex justify-center py-4">
-        <p className="text-sm text-default-600">
-          Don't have an account?{" "}
-          <Link
-            href="/sign-up"
-            className="text-primary hover:underline font-medium"
-          >
-            Sign up
-          </Link>
-        </p>
-      </CardFooter>
-    </Card>
+            {/* Divider for OAuth */}
+            <div className="flex items-center gap-2 my-6">
+              <Divider className="flex-1 bg-white/30" />
+              <span className="text-sm text-white/70">or</span>
+              <Divider className="flex-1 bg-white/30" />
+            </div>
+
+            {/* Social Sign-In Buttons */}
+            <div className="space-y-3">
+              <Button
+                variant="bordered"
+                className="w-full bg-white/10 text-white hover:bg-white/20 transition-all"
+                onClick={() => handleOAuthSignIn("oauth_google")}
+              >
+                <FcGoogle className="h-5 w-5" /> Sign in with Google
+              </Button>
+              <Button
+                variant="bordered"
+                className="w-full bg-white/10 text-white hover:bg-white/20 transition-all"
+                onClick={() => handleOAuthSignIn("oauth_github")}
+              >
+                <Github className="h-5 w-5" /> Sign in with GitHub
+              </Button>
+            </div>
+          </CardBody>
+
+          <Divider className="bg-white/30" />
+
+          <CardFooter className="flex justify-center py-4">
+            <p className="text-sm text-white/80">
+              Don't have an account?{" "}
+              <Link
+                href="/sign-up"
+                className="text-indigo-200 hover:underline font-medium"
+              >
+                Sign up
+              </Link>
+            </p>
+          </CardFooter>
+        </Card>
+      </motion.div>
+    </div>
   );
 }
