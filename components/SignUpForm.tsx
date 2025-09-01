@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -20,9 +20,9 @@ import {
   EyeOff,
 } from "lucide-react";
 import { signUpSchema } from "@/schemas/signUpSchema";
-export default function SignUpForm(){
-    
-    const router = useRouter();
+
+export default function SignUpForm() {
+  const router = useRouter();
   const { signUp, isLoaded, setActive } = useSignUp();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
@@ -34,82 +34,79 @@ export default function SignUpForm(){
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm<z.infer<typeof signUpSchema>>({
-        resolver: zodResolver(signUpSchema),
-        defaultValues:{
-            email:"",
-            password:"",
-            passwordConfirmation:"",
-            
-        },
-    })
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<z.infer<typeof signUpSchema>>({
+    resolver: zodResolver(signUpSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+      passwordConfirmation: "",
+    },
+  });
 
+  const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
+    if (!isLoaded) return;
 
-    const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
-        if(!isLoaded){
-            return;
-        } 
-         
+    setIsSubmitting(true);
+    setAuthError(null);
 
-        try {
-            await signUp.create({
-                emailAddress: data.email,
-                password: data.password
-            })
-            await signUp.prepareEmailAddressVerification({
-                strategy:"email_code"
-            })
-            setVerifying(true)
-        } catch (error: any) {
-            console.error("Signup error: ", error)
-            setAuthError(
-                error.errors?.[0]?.message || "An error occured"
-            )
-        }
-         finally{
-            setIsSubmitting(false);
-         }
+    try {
+      await signUp.create({
+        emailAddress: data.email,
+        password: data.password,
+      });
+
+      await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
+      setVerifying(true);
+    } catch (error: any) {
+      console.error("Sign-up error:", error);
+      setAuthError(
+        error.errors?.[0]?.message ||
+          "An error occurred during sign-up. Please try again."
+      );
+    } finally {
+      setIsSubmitting(false);
     }
+  };
 
-    const handleVerificationSubmit = async (e: React.
-        FormEvent<HTMLFormElement>
-    ) => {
-        e.preventDefault()
-        if(!isLoaded || !signUp) return;
+  const handleVerificationSubmit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
+    e.preventDefault();
+    if (!isLoaded || !signUp) return;
 
-        setIsSubmitting(true)
-        setAuthError(null)
+    setIsSubmitting(true);
+    setVerificationError(null);
 
-        try {
-            const result = await signUp.attemptEmailAddressVerification({
-                code:verificationCode
-            })
+    try {
+      const result = await signUp.attemptEmailAddressVerification({
+        code: verificationCode,
+      });
 
-            if (result.status === "complete") {
-            await setActive({ session: result.createdSessionId });
-            router.push("/dashboard");
-        } else {
-            console.error("Verification incomplete:", result);
-            setVerificationError(
-            "Verification could not be completed. Please try again."
-            );
-        }
-        } catch (error:any) {
-            console.error("Verification incomplete:", error);
-            setVerificationError(
-            error.errors?.[0]?.message || 
-            "Verification could not be completed. Please try again."
-            )
-        }finally{
-            setIsSubmitting(false);
-        }
+      if (result.status === "complete") {
+        await setActive({ session: result.createdSessionId });
+        router.push("/dashboard");
+      } else {
+        console.error("Verification incomplete:", result);
+        setVerificationError(
+          "Verification could not be completed. Please try again."
+        );
+      }
+    } catch (error: any) {
+      console.error("Verification error:", error);
+      setVerificationError(
+        error.errors?.[0]?.message ||
+          "An error occurred during verification. Please try again."
+      );
+    } finally {
+      setIsSubmitting(false);
     }
+  };
 
-    if(verifying){
+  if (verifying) {
     return (
       <Card className="w-full max-w-md border border-default-200 bg-default-50 shadow-xl">
         <CardHeader className="flex flex-col gap-1 items-center pb-2">
@@ -148,8 +145,8 @@ export default function SignUpForm(){
                 className="w-full"
                 autoFocus
               />
-            </div>  
-
+            </div>
+              {/* <div id="clerk-captcha"></div> */}
             <Button
               type="submit"
               color="primary"
@@ -182,7 +179,7 @@ export default function SignUpForm(){
     );
   }
 
-        return(
+  return (
     <Card className="w-full max-w-md border border-default-200 bg-default-50 shadow-xl">
       <CardHeader className="flex flex-col gap-1 items-center pb-2">
         <h1 className="text-2xl font-bold text-default-900">
@@ -300,7 +297,7 @@ export default function SignUpForm(){
               </p>
             </div>
           </div>
-
+                {/* <div id="clerk-captcha" data-cl-theme="dark" data-cl-size="flexible" /> */}
           <Button
             type="submit"
             color="primary"
@@ -326,5 +323,5 @@ export default function SignUpForm(){
         </p>
       </CardFooter>
     </Card>
-  );    
+  );
 }
