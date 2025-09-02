@@ -65,7 +65,7 @@ export default async function Dashboard() {
           </div> */}
 
           {/* Dashboard Content */}
-          <div className="bg-white/5 rounded-2xl p-8 shadow-lg backdrop-blur-lg border border-white/10 transition-transform hover:-translate-y-2 hover:shadow-2xl">
+          <div className="bg-white/5 rounded-2xl p-8 shadow-lg backdrop-blur-lg border border-white/10 transition-transform">
             <h2 className="text-2xl font-bold mb-4 text-blue-400">
               Your Files
             </h2>

@@ -227,23 +227,23 @@ export default function FileUploadForm({
             <FileUp className="h-12 w-12 mx-auto text-primary/70" />
             <div>
               <p className="text-default-600">
-                Drag and drop your image here, or{" "}
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
                   className="text-primary cursor-pointer font-medium inline bg-transparent border-0 p-0 m-0"
-                >
+                  >
+                  Drag and drop your files here, or{" "}
                   browse
+              <p className="text-xs text-default-500 mt-1">Files up to 5MB</p>
                 </button>
               </p>
-              <p className="text-xs text-default-500 mt-1">Images up to 5MB</p>
             </div>
             <Input
               type="file"
               ref={fileInputRef}
               onChange={handleFileChange}
               className="hidden"
-              accept="image/*"
+              accept="files/*"
             />
           </div>
         ) : (
@@ -314,7 +314,7 @@ export default function FileUploadForm({
         <h4 className="text-sm font-medium mb-2">Tips</h4>
         <ul className="text-xs text-default-600 space-y-1">
           <li>• Images are private and only visible to you</li>
-          <li>• Supported formats: JPG, PNG, GIF, WebP</li>
+          <li>• Supported formats: JPG, PNG, GIF, WebP, PDF's</li>
           <li>• Maximum file size: 5MB</li>
         </ul>
       </div>
