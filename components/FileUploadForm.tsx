@@ -224,7 +224,6 @@ export default function FileUploadForm({
       >
         {!file ? (
           <div className="space-y-3">
-            <FileUp className="h-12 w-12 mx-auto text-primary/70" />
             <div>
               <p className="text-default-600">
                 <button
@@ -232,6 +231,7 @@ export default function FileUploadForm({
                   onClick={() => fileInputRef.current?.click()}
                   className="text-primary cursor-pointer font-medium inline bg-transparent border-0 p-0 m-0"
                   >
+            <FileUp className="h-12 w-12 mx-auto text-primary/70 " />
                   Drag and drop your files here, or{" "}
                   browse
               <p className="text-xs text-default-500 mt-1">Files up to 5MB</p>
