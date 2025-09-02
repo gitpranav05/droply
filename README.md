@@ -32,9 +32,12 @@ Database	Neon (PostgreSQL)
 ORM	Drizzle
 File Storage	ImageKit
 Backend	Next.js API Routes
-🎬 Screenshots / Demo
 
-👉 (Insert GIF or screenshots of Droply in action here)
+
+
+🎬 Screenshots / Demo
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/f70fdeb2-8862-49a6-a8c4-f17055275cee" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/e56db2c0-8b5f-4b75-9015-6f68ff5b1991" />
 
 ⚡ Installation & Setup
 
