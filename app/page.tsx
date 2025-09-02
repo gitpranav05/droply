@@ -11,12 +11,33 @@ import {
 } from "lucide-react";
 
 import Navbar from "@/components/Navbar";
+import { auth, currentUser } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
-export default function Home() {
+export default async function Home() {
+  const { userId } = await auth();
+    const user = await currentUser();
+      // const fileInputRef = useRef<HTMLInputElement>(null);
+    if (!userId) {
+      redirect("/sign-in");
+    }
+  
+    // Serialize the user data
+    const serializedUser = user
+      ? {
+          id: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          imageUrl: user.imageUrl,
+          username: user.username,
+          emailAddress: user.emailAddresses?.[0]?.emailAddress,
+        }
+      : null;
+  
   return (
     <div className="flex min-h-screen flex-col bg-default-50">
       {/* Navbar */}
-      <Navbar />
+      <Navbar user={serializedUser}/>
 
       {/* Main content */}
       <main className="flex-1">
