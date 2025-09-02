@@ -24,7 +24,7 @@ A modern platform for secure and fast file management with a sleek UI, real-time
 
 📊 Optional Analytics & Tracking
 
-🛠️ Tech Stack
+# 🛠️ Tech Stack
 Layer	Technology
 Frontend	Next.js, HeroUI
 Authentication	Clerk
@@ -35,11 +35,11 @@ Backend	Next.js API Routes
 
 
 
-🎬 Screenshots / Demo
+# 🎬 Screenshots / Demo
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/f70fdeb2-8862-49a6-a8c4-f17055275cee" />
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/e56db2c0-8b5f-4b75-9015-6f68ff5b1991" />
 
-⚡ Installation & Setup
+# ⚡ Installation & Setup
 
 Clone the repository
 
@@ -54,33 +54,33 @@ npm install
 
 Configure environment variables → Create a .env file in the root
 
-# Database
+Database
 DATABASE_URL=
 
-# Clerk Authentication
+Clerk Authentication
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
 CLERK_SECRET_KEY=
 
-# ImageKit
+ImageKit
 NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY=
 IMAGEKIT_PRIVATE_KEY=
 NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT=
 
-# Clerk URLs
+Clerk URLs
 NEXT_PUBLIC_CLERK_SIGN_IN_URL=
 NEXT_PUBLIC_CLERK_SIGN_UP_URL=
 NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=
 NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=
 
-# Fallback URLs
+Fallback URLs
 NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=
 NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL=
 
-# App
+App
 NEXT_PUBLIC_APP_URL=
 
 
-Run the project
+# Run the project
 
 npm run dev
 
@@ -97,7 +97,7 @@ droply/
 ├── styles/       # Global & component CSS
 └── README.md     # Documentation
 
-🤝 Contributing
+# 🤝 Contributing
 
 Contributions are welcome!
 
@@ -120,7 +120,7 @@ git push origin feature/YourFeature
 
 Open a pull request
 
-🚀 Deployment
+# 🚀 Deployment
 
 The easiest way to deploy your Next.js app is via Vercel
  – from the creators of Next.js.
