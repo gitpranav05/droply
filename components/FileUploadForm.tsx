@@ -206,7 +206,7 @@ export default function FileUploadForm({
           onClick={() => fileInputRef.current?.click()}
           className="flex-1"
         >
-          Add Image
+          Add Files
         </Button>
       </div>
 
