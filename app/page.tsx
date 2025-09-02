@@ -18,9 +18,6 @@ export default async function Home() {
   const { userId } = await auth();
     const user = await currentUser();
       // const fileInputRef = useRef<HTMLInputElement>(null);
-    if (!userId) {
-      redirect("/sign-in");
-    }
   
     // Serialize the user data
     const serializedUser = user
