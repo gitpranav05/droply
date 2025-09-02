@@ -342,7 +342,7 @@ export default function FileUploadForm({
               </p>
               <Input
                 type="text"
-                label="Folder Name"
+                label=""
                 placeholder="My Images"
                 value={folderName}
                 onChange={(e) => setFolderName(e.target.value)}
