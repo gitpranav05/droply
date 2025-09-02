@@ -98,7 +98,7 @@ export default function SignInForm() {
 
           <CardBody className="py-6">
             {authError && (
-              <div className="bg-red-500/20 text-red-200 p-4 rounded-lg mb-6 flex items-center gap-2 border border-red-400/30">
+              <div className="bg-red-500/20 text-red-900 p-4 rounded-lg mb-6 flex items-center gap-2 border border-red-400/30">
                 <AlertCircle className="h-5 w-5 flex-shrink-0" />
                 <p>{authError}</p>
               </div>
