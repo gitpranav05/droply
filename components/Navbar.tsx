@@ -97,8 +97,8 @@ export default function Navbar({ user }: NavbarProps) {
     <header
       className={`sticky top-0 z-50 transition-all ${
         isScrolled
-          ? "backdrop-blur-md bg-black/70 shadow-md"
-          : "bg-gradient-to-r from-gray-900 via-black to-gray-900"
+      ? "bg-black/90 shadow-md" // solid & light
+      : "bg-gradient-to-r from-gray-900 via-black to-gray-900"
       }`}
     >
       <div className="container mx-auto py-3 md:py-4 px-4 md:px-6">
