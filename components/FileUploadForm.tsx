@@ -321,55 +321,62 @@ export default function FileUploadForm({
 
       {/* Create Folder Modal */}
       <Modal
-        isOpen={folderModalOpen}
-        onOpenChange={setFolderModalOpen}
-        backdrop="blur"
-        classNames={{
-          base: "border border-default-200 bg-default-5",
-          header: "border-b border-default-200",
-          footer: "border-t border-default-200",
-        }}
+  isOpen={folderModalOpen}
+  onOpenChange={setFolderModalOpen}
+  classNames={{
+    base: "bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-2xl shadow-2xl",
+    header: "border-b border-neutral-200 dark:border-neutral-700 px-6 py-4 text-lg font-semibold",
+    body: "px-6 py-5 text-neutral-700 dark:text-neutral-200",
+    footer: "border-t border-neutral-200 dark:border-neutral-700 px-6 py-4 flex justify-end gap-3",
+    backdrop: "bg-black/70 backdrop-blur-sm",
+  }}
+  backdrop="blur"
+>
+  <ModalContent>
+    <ModalHeader className="flex items-center gap-2">
+      <FolderPlus className="h-6 w-6 text-primary" />
+      <span>New Folder</span>
+    </ModalHeader>
+
+    <ModalBody>
+      <div className="space-y-4">
+        <p className="text-sm text-neutral-600 dark:text-neutral-400">
+          Enter a name for your folder:
+        </p>
+        <Input
+          type="text"
+          placeholder="My Images"
+          value={folderName}
+          onChange={(e) => setFolderName(e.target.value)}
+          autoFocus
+          className="rounded-xl"
+        />
+      </div>
+    </ModalBody>
+
+    <ModalFooter>
+      <Button
+        variant="flat"
+        color="default"
+        onClick={() => setFolderModalOpen(false)}
+        className="rounded-xl"
       >
-        <ModalContent>
-          <ModalHeader className="flex gap-2 items-center">
-            <FolderPlus className="h-5 w-5 text-primary" />
-            <span>New Folder</span>
-          </ModalHeader>
-          <ModalBody>
-            <div className="space-y-4">
-              <p className="text-sm text-default-600">
-                Enter a name for your folder:
-              </p>
-              <Input
-                type="text"
-                label=""
-                placeholder="My Images"
-                value={folderName}
-                onChange={(e) => setFolderName(e.target.value)}
-                autoFocus
-              />
-            </div>
-          </ModalBody>
-          <ModalFooter>
-            <Button
-              variant="flat"
-              color="default"
-              onClick={() => setFolderModalOpen(false)}
-            >
-              Cancel
-            </Button>
-            <Button
-              color="primary"
-              onClick={handleCreateFolder}
-              isLoading={creatingFolder}
-              isDisabled={!folderName.trim()}
-              endContent={!creatingFolder && <ArrowRight className="h-4 w-4" />}
-            >
-              Create
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+        Cancel
+      </Button>
+      <Button
+        color="primary"
+        onClick={handleCreateFolder}
+        isLoading={creatingFolder}
+        isDisabled={!folderName.trim()}
+        endContent={!creatingFolder && <ArrowRight className="h-4 w-4" />}
+        className="rounded-xl shadow-md"
+      >
+        Create
+      </Button>
+    </ModalFooter>
+  </ModalContent>
+</Modal>
+
     </div>
   );
 }
